@@ -1,0 +1,32 @@
+:root {
+  --navy-950: #071525;
+  --navy-900: #0f2c4c;
+  --navy-800: #163a63;
+  --navy-700: #1e4d7a;
+  --teal-600: #158f80;
+  --teal-500: #1a9b8a;
+  --teal-400: #2cb8a5;
+  --teal-100: #d8f3ee;
+  --cream: #f6f4ef;
+  --cream-200: #ebe7dc;
+  --white: #ffffff;
+  --ink: #122033;
+  --muted: #5b6b7c;
+  --line: #d5dce6;
+  --compliant: #157a4b;
+  --compliant-bg: #e5f6ec;
+  --review: #b45309;
+  --review-bg: #fef3c7;
+  --noncompliant: #b42318;
+  --noncompliant-bg: #fde8e6;
+  --high: #b42318;
+  --medium: #b45309;
+  --low: #1e4d7a;
+  --demo: #7a3e0a;
+  --demo-bg: #fff4e0;
+  --shadow: 0 10px 30px rgba(15, 44, 76, 0.08);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --font: "Inter", "Segoe UI", system-ui, sans-serif;
+  --max: 1120px;
+}

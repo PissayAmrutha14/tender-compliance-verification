@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tender Compliance Verification System</title>
+
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/views.css" />
+  </head>
+
+  <body>
+    <header class="app-header">
+      <div class="header-inner">
+        <a class="brand" href="#/" data-nav="home">
+          <img src="assets/favicon.svg" alt="" />
+          Tender Compliance Verification
+        </a>
+
+        <nav class="nav" aria-label="Primary">
+          <a href="#/" data-nav="home">Home</a>
+          <button class="linkish" type="button" id="new-screening-btn">
+            New screening
+          </button>
+        </nav>
+      </div>
+
+      <div id="demo-banner" class="demo-banner" hidden>
+        DEMO MODE — Results shown are sample results and are not generated from
+        the uploaded documents.
+      </div>
+    </header>
+
+    <main class="app-main">
+
+      <!-- HOME -->
+      <section id="view-home" class="view" data-view="home">
+        <div class="hero">
+          <div>
+            <p class="kicker">First-level bid screening</p>
+
+            <h1>
+              Screen bidder submissions against a Tender or RFP — with evidence
+              you can trace.
+            </h1>
+
+            <p>
+              Built for procurement teams who need a structured first pass:
+              requirements, findings, status, reasons, and document-page
+              evidence. This is a <strong>decision-support</strong> tool, not a
+              final award or eligibility decision.
+            </p>
+
+            <p>
+              <a class="btn btn-primary" href="#/upload">
+                Start screening
+              </a>
+            </p>
+          </div>
+
+          <aside class="hero-panel">
+            <h3>What you get</h3>
+
+            <p>
+              Preliminary Compliance Score, requirement-by-requirement results,
+              missing-document alerts, and a risk summary — each tied to
+              document and page references when evidence exists.
+            </p>
+
+            <p class="muted-note">
+              Human review remains required before any procurement decision.
+            </p>
+          </aside>
+        </div>
+
+        <div class="how">
+          <h2>How it works</h2>
+
+          <div class="grid-3">
+            <article class="card how-card">
+              <h3>1. Attach documents</h3>
+              <p>
+                Upload one Tender/RFP PDF and one or more bidder PDFs. Optional
+                business registration details can be added for context.
+              </p>
+            </article>
+
+            <article class="card how-card">
+              <h3>2. Run first-level screening</h3>
+              <p>
+                The future Python pipeline will extract, identify requirements,
+                find evidence, compare, classify, explain, and assess risk.
+              </p>
+            </article>
+
+            <article class="card how-card">
+              <h3>3. Review traceable results</h3>
+              <p>
+                Follow Requirement → Finding → Status → Reason → Evidence →
+                Document/Page. Download a screening report for the file.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- UPLOAD -->
+      <section id="view-upload" class="view" data-view="upload" hidden>
+        <h1>Upload workspace</h1>
+
+        <p class="upload-intro">
+          Files stay in this browser session so a FastAPI backend can receive
+          them later. Stage 1 does <strong>not</strong> analyze PDF content.
+          Sample results will be shown after you verify.
+        </p>
+
+        <div id="upload-summary" class="sticky-summary" aria-live="polite"></div>
+
+        <div class="grid-2">
+          <div>
+            <article class="card">
+              <h2>Tender / RFP PDF</h2>
+              <p>Required. One PDF.</p>
+
+              <div
+                class="dropzone"
+                id="tender-drop"
+                tabindex="0"
+                role="button"
+                aria-label="Upload tender PDF"
+              >
+                <strong>Drop tender PDF here</strong>
+                <p>or click to browse · PDF · max 25 MB</p>
+
+                <input
+                  id="tender-input"
+                  class="sr-only"
+                  type="file"
+                  accept=".pdf,application/pdf"
+                />
+              </div>
+
+              <ul id="tender-files" class="file-list"></ul>
+            </article>
+
+            <article class="card" style="margin-top: 1rem">
+              <h2>Bidder documents</h2>
+              <p>Required. Multiple PDFs allowed.</p>
+
+              <div
+                class="dropzone"
+                id="bidder-drop"
+                tabindex="0"
+                role="button"
+                aria-label="Upload bidder PDFs"
+              >
+                <strong>Drop bidder PDFs here</strong>
+                <p>or click to browse · PDF · max 25 MB each</p>
+
+                <input
+                  id="bidder-input"
+                  class="sr-only"
+                  type="file"
+                  accept=".pdf,application/pdf"
+                  multiple
+                />
+              </div>
+
+              <ul id="bidder-files" class="file-list"></ul>
+            </article>
+          </div>
+
+          <article class="card">
+            <h2>Bidder details (optional)</h2>
+
+            <p>
+              Business and registration information only. Contact details are
+              not collected.
+            </p>
+
+            <form id="bidder-details-form">
+              <div class="field">
+                <label for="company-name">Legal / company name</label>
+                <input
+                  id="company-name"
+                  name="company_name"
+                  autocomplete="organization"
+                />
+              </div>
+
+              <div class="field">
+                <label for="registration-cin">Registration / CIN</label>
+                <input
+                  id="registration-cin"
+                  name="registration_cin"
+                />
+              </div>
+
+              <div class="field">
+                <label for="tax-gstin">Tax ID / GSTIN</label>
+                <input
+                  id="tax-gstin"
+                  name="tax_gstin"
+                />
+              </div>
+
+              <div class="field">
+                <label for="entity-type">Entity type</label>
+
+                <select id="entity-type" name="entity_type">
+                  <option value="">Select</option>
+                  <option>Private Limited</option>
+                  <option>Public Limited</option>
+                  <option>LLP</option>
+                  <option>Partnership</option>
+                  <option>Sole Proprietorship</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </form>
+
+            <p class="muted-note" id="verify-hint">
+              Attach a tender PDF and at least one bidder PDF to enable Verify
+              Bid.
+            </p>
+
+            <button
+              class="btn btn-primary"
+              type="button"
+              id="verify-btn"
+              disabled
+            >
+              Verify Bid
+            </button>
+          </article>
+        </div>
+      </section>
+
+      <!-- PROCESSING -->
+      <section id="view-processing" class="view" data-view="processing" hidden>
+        <article class="card">
+          <h1>Simulating the screening pipeline</h1>
+
+          <p>
+            These stages describe the future Python / FastAPI flow. Uploaded
+            PDFs are not being read or scored in this demo.
+          </p>
+
+          <div class="progress-bar" aria-hidden="true">
+            <span id="progress-fill"></span>
+          </div>
+
+          <p id="progress-label" class="muted-note"></p>
+
+          <div id="pipeline-stepper" class="stepper"></div>
+        </article>
+      </section>
+
+      <!-- RESULTS -->
+      <section id="view-results" class="view" data-view="results" hidden>
+        <div class="results-header">
+          <div>
+            <p class="kicker">Decision-support indicator</p>
+
+            <h1>Preliminary Compliance Score</h1>
+
+            <p id="score-disclaimer">
+              First-level screening only. This is not a final award,
+              eligibility, or procurement decision. Human review remains
+              required.
+            </p>
+          </div>
+
+          <div class="card" style="min-width: 220px">
+            <div id="score-value" class="score-number">—</div>
+            <div id="overall-status"></div>
+            <p id="overall-summary" class="muted-note"></p>
+          </div>
+        </div>
+
+        <p class="muted-note" id="sample-note" hidden>
+          Sample evidence document names may not match files you attached.
+          Results are not generated from those PDFs.
+        </p>
+
+        <div
+          id="missing-docs"
+          class="card"
+          style="margin-top: 1rem"
+        ></div>
+
+        <div
+          id="risk-summary"
+          class="card"
+          style="margin-top: 1rem"
+        ></div>
+
+        <div class="results-layout">
+          <article class="card">
+            <h2>Requirement-by-requirement results</h2>
+
+            <div class="filters">
+              <button
+                type="button"
+                class="filter-chip active"
+                data-filter="all"
+              >
+                All
+              </button>
+
+              <button
+                type="button"
+                class="filter-chip"
+                data-filter="compliant"
+              >
+                Compliant
+              </button>
+
+              <button
+                type="button"
+                class="filter-chip"
+                data-filter="non_compliant"
+              >
+                Non-Compliant
+              </button>
+
+              <button
+                type="button"
+                class="filter-chip"
+                data-filter="needs_review"
+              >
+                Needs Review
+              </button>
+
+              <input
+                id="req-search"
+                type="search"
+                placeholder="Search requirements"
+              />
+            </div>
+
+            <div class="data-table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Requirement</th>
+                    <th>Status</th>
+                    <th>Reason</th>
+                    <th>Evidence</th>
+                  </tr>
+                </thead>
+
+                <tbody id="req-table-body"></tbody>
+              </table>
+            </div>
+
+            <div id="req-cards" class="req-cards"></div>
+          </article>
+
+          <aside class="card" id="traceability-panel">
+            <h2>Evidence traceability</h2>
+
+            <p class="muted-note">
+              Select a requirement to follow Requirement → Finding → Status →
+              Reason → Evidence → Document/Page.
+            </p>
+          </aside>
+        </div>
+
+        <p style="margin-top: 1.25rem">
+          <button
+            class="btn btn-primary"
+            type="button"
+            id="download-report-btn"
+          >
+            Download report
+          </button>
+
+          <a class="btn btn-secondary" href="#/upload">
+            Start new screening
+          </a>
+        </p>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      Tender Compliance Verification System · first-level screening prototype
+    </footer>
+
+    <div id="toast" class="toast" hidden role="status"></div>
+
+    <!-- JavaScript files -->
+<script src="js/config.js"></script>
+<script src="js/mock-data.js"></script>
+<script src="js/state.js"></script>
+<script src="js/api.js"></script>
+<script src="js/upload.js"></script>
+<script src="js/views/upload.js"></script>
+<script src="js/views/processing.js"></script>
+<script src="js/views/results.js"></script>
+<script src="js/app.js"></script>
+  </body>
+</html>
+
+After saving
+
+Refresh the browser page at:
+
+"http://127.0.0.1:5500/index.html"
+
+Then try one tender + one bidder → Verify Bid.
+
+Don't worry about the other issues yet. First let's see whether the repeated POST requests stop.

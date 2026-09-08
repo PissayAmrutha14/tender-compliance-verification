@@ -1,0 +1,89 @@
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2rem;
+  align-items: center;
+  padding: 1.5rem 0 2rem;
+}
+
+.hero h1 {
+  font-size: clamp(1.8rem, 4vw, 2.7rem);
+  margin: 0 0 0.75rem;
+}
+
+.kicker {
+  color: var(--teal-600);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  margin: 0 0 0.5rem;
+}
+
+.hero-panel {
+  background: var(--navy-900);
+  color: var(--white);
+  border-radius: var(--radius);
+  padding: 1.4rem;
+}
+
+.hero-panel h3 {
+  color: var(--white);
+  margin-top: 0;
+}
+
+.hero-panel p {
+  color: #c5d4e4;
+}
+
+.how {
+  margin-top: 0.5rem;
+}
+
+.how h2,
+.section-title {
+  margin-bottom: 0.85rem;
+}
+
+.how-card h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+}
+
+.upload-intro {
+  margin-bottom: 1rem;
+}
+
+.results-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: start;
+}
+
+.results-layout {
+  display: grid;
+  grid-template-columns: 1.35fr 0.9fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.req-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem;
+  cursor: pointer;
+}
+
+.req-card.selected {
+  outline: 2px solid var(--teal-500);
+}
+
+@media (max-width: 900px) {
+  .hero,
+  .results-header,
+  .results-layout {
+    grid-template-columns: 1fr;
+  }
+}
